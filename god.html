@@ -1,111 +1,113 @@
-<!DOCTYPE html>
-<html>
-<head>
+		<!DOCTYPE html>
+		<html>
+		<head>
 
-<style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-    </style>
+		<style>
+		      html, body {
+		        height: 100%;
+		        margin: 0;
+		        padding: 0;
+		      }
+		      #map {
+		        height: 100%;
+		      }
+		    </style>
 
-<script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
-<script src="https://cdn.firebase.com/libs/geofire/4.1.1/geofire.min.js"></script>
-<script>
-  var map;
-  var markers = new Array()
-  function initMap() {
+		<script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
+		<script src="https://cdn.firebase.com/libs/geofire/4.1.1/geofire.min.js"></script>
+		<script>
+		  var map;
+		  var markers = new Array()
+		  function initMap() {
 
-  	var myLatLng = {lat: 12.919846, lng: 77.592132};
+		  	var myLatLng = {lat: 12.919846, lng: 77.592132};
 
-  	map = new google.maps.Map(document.getElementById('map'), {
-		center: myLatLng,
-		zoom: 15
-	});
+		  	map = new google.maps.Map(document.getElementById('map'), {
+				center: myLatLng,
+				zoom: 15
+			});
 
-	var infowindow = new google.maps.InfoWindow({
-    content: 'Subway Restaurant'
-  });
+			var infowindow = new google.maps.InfoWindow({
+		    content: 'Subway Restaurant'
+		  });
 
-	var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Subway Family Restaurant'
-  });
+			var marker = new google.maps.Marker({
+		    position: myLatLng,
+		    map: map,
+		    title: 'Subway Family Restaurant'
+		  });
 
-	marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+			marker.addListener('click', function() {
+		    infowindow.open(map, marker);
+		  });
 
-	// Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDxEYceo3io2TXp1Oj5At2v0FdaBzqtY4A",
-    authDomain: "gngconsumer-1367.firebaseapp.com",
-    databaseURL: "https://gngconsumer-1367.firebaseio.com",
-    storageBucket: "gngconsumer-1367.appspot.com",
-  };
+			// Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyDxEYceo3io2TXp1Oj5At2v0FdaBzqtY4A",
+		    authDomain: "gngconsumer-1367.firebaseapp.com",
+		    databaseURL: "https://gngconsumer-1367.firebaseio.com",
+		    storageBucket: "gngconsumer-1367.appspot.com",
+		  };
 
-  firebase.initializeApp(config);
+		  firebase.initializeApp(config);
 
-  console.log('This is awesome! :D')
+		  var geoFire = new GeoFire(firebase.database().ref('storegeo'))
 
-  var geoFire = new GeoFire(firebase.database().ref('storegeo'))
+		  var geoQuery = geoFire.query({
+		  	center: [12.919846, 77.592132],
+		  	radius: 20
+		  })
 
-  var geoQuery = geoFire.query({
-  	center: [12.919846, 77.592132],
-  	radius: 20
-  })
+		  var onKeyMovedRegistration = geoQuery.on("key_moved", function(key, location, distance) {
+		  console.log("User " + key + " moved to " + location + " (" + distance + " km from center)");
 
-  var onKeyMovedRegistration = geoQuery.on("key_moved", function(key, location, distance) {
-  console.log("User " + key + " moved to " + location + " (" + distance + " km from center)");
+		 var markerExists = "no"
 
-  clearAllMarkers()
-  
-  var infowindow = new google.maps.InfoWindow({
-    content: key
-  });
+		 for (var i = markers.length - 1; i >= 0; i--) {
+		 	if(markers[i].title == key)
+		 	{
+		 		markers[i].setPosition({lat: location[0],
+		    			   				lng: location[1]})
+		 		markerExists = "yes"
+		 	}
+		 }
 
-  var marker = new google.maps.Marker({
-    position: {lat: location[0],
-    		   lng: location[1]},
-    map: map,
-    title: key,
-    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-  });
+		 if (markerExists == "no") 
+		 {
+		 	var infowindow = new google.maps.InfoWindow({
+		    	content: key
+		  		});
 
-	marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+		  	var marker = new google.maps.Marker({
+		    	position: {lat: location[0],
+		    			   lng: location[1]},
+		    		 map: map,
+		    	   title: key,
+		    		icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+		  });
 
-  markers.push(marker)
+			marker.addListener('click', function() {
+		    infowindow.open(map, marker);
+		  });
+
+		    markers.push(marker)
+		 }
 
 
-});
+		});
 
-}
-
-	function clearAllMarkers(){
-		for (var i = markers.length - 1; i >= 0; i--) {
-			
-			markers[i].setMap(null)
 		}
 
-}
+		</script>
 
-</script>
+			<title>GrabbnGo God View</title>
 
-	<title>GrabbnGo God View</title>
+		</head>
 
-</head>
+		<body>
+		    
+		    <div id="map"></div>
+		  	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif7bQjmyK3atqFHMetwTuT_sWPUcEYCo&callback=initMap" async defer></script>
+		</body>
 
-<body>
-    
-    <div id="map"></div>
-  	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif7bQjmyK3atqFHMetwTuT_sWPUcEYCo&callback=initMap" async defer></script>
-</body>
-
-</html>    
+		</html>    

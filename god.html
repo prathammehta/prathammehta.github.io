@@ -24,7 +24,7 @@
 
 		  	map = new google.maps.Map(document.getElementById('map'), {
 				center: myLatLng,
-				zoom: 15
+				zoom: 17
 			});
 
 			var infowindow = new google.maps.InfoWindow({
@@ -40,6 +40,28 @@
 			marker.addListener('click', function() {
 		    infowindow.open(map, marker);
 		  });
+
+			var arrivedCircle = new google.maps.Circle({
+      		strokeColor: '#FF0000',
+      		strokeOpacity: 0.8,
+      		strokeWeight: 2,
+      		fillColor: '#FF0000',
+      		fillOpacity: 0.2,
+      		map: map,
+      		center: myLatLng,
+      		radius: 100
+    		});
+
+    		var approachingCircle = new google.maps.Circle({
+      		strokeColor: '#FFFF00',
+      		strokeOpacity: 0.8,
+      		strokeWeight: 2,
+      		fillColor: '#FFFF00',
+      		fillOpacity: 0.2,
+      		map: map,
+      		center: myLatLng,
+      		radius: 300
+    		});
 
 			// Initialize Firebase
 		  var config = {

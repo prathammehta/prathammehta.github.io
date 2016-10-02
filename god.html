@@ -65,58 +65,123 @@
 
 			// Initialize Firebase
 		  var config = {
-		    apiKey: "AIzaSyDxEYceo3io2TXp1Oj5At2v0FdaBzqtY4A",
-		    authDomain: "gngconsumer-1367.firebaseapp.com",
-		    databaseURL: "https://gngconsumer-1367.firebaseio.com",
-		    storageBucket: "gngconsumer-1367.appspot.com",
-		  };
+		      apiKey: "AIzaSyBUoAuVIzUL0Dh9VkvUreFabtgWJCZF0Cc",
+		      authDomain: "gngconsumertest.firebaseapp.com",
+		      databaseURL: "https://gngconsumertest.firebaseio.com",
+		      storageBucket: "gngconsumertest.appspot.com",
+		      messagingSenderId: "72676022387"
+		    };
 
 		  firebase.initializeApp(config);
 
-		  var geoFire = new GeoFire(firebase.database().ref('storegeo'))
+		  var provider = new firebase.auth.GoogleAuthProvider();
 
-		  var geoQuery = geoFire.query({
-		  	center: [12.919846, 77.592132],
-		  	radius: 20
-		  })
+		  firebase.auth().signInWithPopup(provider).then(function(result) {
 
-		  var onKeyMovedRegistration = geoQuery.on("key_moved", function(key, location, distance) {
-		  console.log("User " + key + " moved to " + location + " (" + distance + " km from center)");
+		    var token = result.credential.accessToken;
 
-		 var markerExists = "no"
+		    var user = result.user;
 
-		 for (var i = markers.length - 1; i >= 0; i--) {
-		 	if(markers[i].title == key)
-		 	{
-		 		markers[i].setPosition({lat: location[0],
-		    			   				lng: location[1]})
-		 		markerExists = "yes"
-		 	}
-		 }
+		      var geoFire = new GeoFire(firebase.database().ref('storegeo'))
 
-		 if (markerExists == "no") 
-		 {
-		 	var infowindow = new google.maps.InfoWindow({
-		    	content: key
-		  		});
+		      var geoQuery = geoFire.query({
+		      	center: [12.919846, 77.592132],
+		      	radius: 20
+		      })
 
-		  	var marker = new google.maps.Marker({
-		    	position: {lat: location[0],
-		    			   lng: location[1]},
-		    		 map: map,
-		    	   title: key,
-		    		icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+		      var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location, distance) {
+		      
+		      console.log("User " + key + " Entered to " + location + " (" + distance + " km from center)");	
+
+		     var markerExists = "no"
+
+		     //CHECK IF MARKERS ARE ON THE MAP.
+		     for (var i = markers.length - 1; i >= 0; i--) {
+		     	if(markers[i].title == key)
+		     	{
+		     		markers[i].setPosition({lat: location[0],
+		        			   				lng: location[1]})
+		     		markerExists = "yes"
+		     	}
+		     }
+
+		     if (markerExists == "no") 
+		     {
+		     	var infowindow = new google.maps.InfoWindow({
+		        	content: key
+		      		});
+
+		      	var marker = new google.maps.Marker({
+		        	position: {lat: location[0],
+		        			   lng: location[1]},
+		        		 map: map,
+		        	   title: key,
+		        		icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+		      });
+
+		    	marker.addListener('click', function() {
+		        infowindow.open(map, marker);
+		      });
+
+		        markers.push(marker)
+		     }
+
+
+		    });
+
+		      var onKeyMovedRegistration = geoQuery.on("key_moved", function(key, location, distance) {
+		      
+		      console.log("User " + key + " moved to " + location + " (" + distance + " km from center)");	
+
+		     var markerExists = "no"
+
+		     //CHECK IF MARKERS ARE ON THE MAP.
+		     for (var i = markers.length - 1; i >= 0; i--) {
+		     	if(markers[i].title == key)
+		     	{
+		     		markers[i].setPosition({lat: location[0],
+		        			   				lng: location[1]})
+		     		markerExists = "yes"
+		     	}
+		     }
+
+		     if (markerExists == "no") 
+		     {
+		     	var infowindow = new google.maps.InfoWindow({
+		        	content: key
+		      		});
+
+		      	var marker = new google.maps.Marker({
+		        	position: {lat: location[0],
+		        			   lng: location[1]},
+		        		 map: map,
+		        	   title: key,
+		        		icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+		      });
+
+		    	marker.addListener('click', function() {
+		        infowindow.open(map, marker);
+		      });
+
+		        markers.push(marker)
+		     }
+
+
+		    });
+		    // ...
+		  }).catch(function(error) {
+		    // Handle Errors here.
+		    var errorCode = error.code;
+		    var errorMessage = error.message;
+
+		    alert(errorMessage)
+		    var email = error.email;
+		    // The firebase.auth.AuthCredential type that was used.
+		    var credential = error.credential;
+		    // ...
 		  });
 
-			marker.addListener('click', function() {
-		    infowindow.open(map, marker);
-		  });
-
-		    markers.push(marker)
-		 }
-
-
-		});
+		  
 
 		}
 
@@ -132,4 +197,4 @@
 		  	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif7bQjmyK3atqFHMetwTuT_sWPUcEYCo&callback=initMap" async defer></script>
 		</body>
 
-		</html>    
+</html>    

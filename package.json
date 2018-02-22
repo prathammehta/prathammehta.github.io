@@ -1,0 +1,13 @@
+{
+  "name": "prathammehta.github.io",
+  "version": "1.0.0",
+  "description": "Hello!",
+  "main": "index.js",
+  "repository": "https://github.com/prathammehta/prathammehta.github.io.git",
+  "author": "Pratham Mehta <prathammehta@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}

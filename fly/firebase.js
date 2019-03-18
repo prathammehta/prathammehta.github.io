@@ -37,7 +37,7 @@ ref.onSnapshot(function(querySnapshot) {
         <div class="flightRow">
             <div class="al">
                 <img class="airlineLogoImage"
-                    src="https://res.cloudinary.com/prathammehta/image/upload/v1549286043/fly/flight_logos/${flight.airline.iata}.png" />
+                    src=${flight.airline?`https://res.cloudinary.com/prathammehta/image/upload/v1549286043/fly/flight_logos/${flight.airline.iata}.png`:`https://res.cloudinary.com/prathammehta/image/upload/e_colorize:100/v1552927223/fly/web_view_icons/tailWing.png`} />
             </div>
 
             <div class="dep">
@@ -49,7 +49,7 @@ ref.onSnapshot(function(querySnapshot) {
             <div class="fldet">
                 <img class="flightHorizontal" src="./images/flightHorizontal.png" />
                 <div class="flightNumberText">${flight.flightNumber?flight.flightNumber:''}</div>
-                <div class="flightDetailText">${flight.airline.airline}</div>
+                <div class="flightDetailText">${flight.airline?flight.airline.airline:''}</div>
             </div>
 
             <div class="arr">

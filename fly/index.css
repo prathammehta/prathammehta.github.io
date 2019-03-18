@@ -1,0 +1,175 @@
+@font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('./fonts/Poppins-SemiBold.ttf')
+}
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('./fonts/Poppins-Bold.ttf')
+}
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('./fonts/Poppins-Regular.ttf')
+}
+
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.main-container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto 1fr 1fr;
+    grid-template-areas:
+        "h" 
+        "m"
+        "f";
+}
+
+@media screen and (min-width: 700px) {
+    /* For Larger screens */
+    .main-container {
+        height: 100%;
+        display: grid;
+        grid-template-columns: auto 3fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas: 
+            "h m"
+            "f m"
+    }
+
+    .header {
+        border-right-color: #979797;
+        border-right-width: 1px;
+        border-right-style: solid;
+    }
+
+    .flights {
+        border-right-color: #979797;
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-top-width: 0px;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    grid-area: h;
+    background-color: #141414;
+    border-bottom: #979797 solid 1px;
+}
+
+.headerText {
+    font-family: Poppins-Regular;
+    font-size: 20;
+    color: white
+}
+
+.flights {
+    background-color: black;
+    grid-area: f;
+    border-top-color: #979797;
+    border-top-width: 1px;
+    border-top-style: solid;
+    overflow: scroll;
+}
+
+.map {
+    background-color: black;
+    grid-area: m
+}
+
+.flightRow {
+    width: 100%;
+    background-color: #141414;
+    border-bottom: #979797 solid 1px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-areas: 
+        "al dep fldet arr";
+}
+
+.al {
+    grid-area: al;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.airlineLogoImage {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.dep {
+    max-width: 100px;
+    min-width: 70;
+    grid-area: dep;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.fldet {
+    grid-area: fldet;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.flightHorizontal {
+    max-width: 30;
+    max-height: 30;
+    margin-bottom: 10px;
+}
+
+.flightNumberText {
+    font-family: Poppins-Regular;
+    color: #F5A622;
+    font-size: 12;
+    text-align: center;
+}
+
+
+.flightDetailText {
+    font-family: Poppins-Regular;
+    color: white;
+    font-size: 10;
+    text-align: center;
+}
+
+.arr {
+    grid-area: arr;
+    display: flex;
+    max-width: 100px;
+    min-width: 70;
+    margin-right: 10px;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.depAirportCode {
+    color: #F5A622;
+    font-family: Poppins-SemiBold;
+    font-size: 25
+}
+
+.departureMunicipality {
+    color: white;
+    font-family: Poppins-Regular;
+    font-size: 12;
+}

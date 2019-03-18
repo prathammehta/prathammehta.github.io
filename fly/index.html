@@ -1,0 +1,40 @@
+<html>
+<link rel="stylesheet" href="index.css">
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class='header'>
+            <div class="headerText">Pratham's Flights</div>
+        </div>
+        <div class="map"></div>
+        <div class="flights" id="flights">
+            
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" language="javascript" src="mapStyle.js"></script>
+
+<script>
+    let map;
+    initMap = () => {
+        map = new google.maps.Map(document.getElementsByClassName('map')[0], {
+            center: { lat: -34.397, lng: 150.644 },
+            zoom: 8,
+            styles: mapStyle
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2gyYCGHA7Bq8xbdu8iNdlcMn9ffjVVuQ&callback=initMap" async defer></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script type="text/javascript" language="javascript" src="moment.min.js"></script>
+<script type="text/javascript" language="javascript" src="moment-timezone-with-data.js"></script>
+<script type="text/javascript" language="javascript" src="firebase.js"></script>
+    
+</html>
